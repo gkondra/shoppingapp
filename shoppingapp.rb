@@ -11,9 +11,9 @@ attr_accessor :product_name
 
 def initialize(name, price)
   @product_name=name
-#  @product_category="category"
+  @product_category="category"
   @product_price=price
-#  @isImported_product="isImported"
+  @isImported_product="isImported"
   @taxrate=@@taxFreeProducts.include?(@product_name) ? 0.0 : (SALES_TAX/100)
   @taxrate=@taxrate + (@product_name.include?("imported") ? (IMPORT_TAX/100) : 0.0)
 end
@@ -39,23 +39,13 @@ def initialize ()
   @productlist=Array.new
 end
 
-def product_parse(prod = items)
-prod.each do |i|
-product, rate, qty = addProductPurchase(i)
-@productlist<<PurchaseItem.new(Product.new( product, rate),qty)
-end
-end
-
-
- def addProductPurchase(i)
-  puts i
-   s = i.split
+def addProductPurchase(input)
+  s = input.split
   qty = s[0].to_i
   rate = s[-1].to_f
   product = input.split(" at ")[0].delete("/0-9/").strip
-  return product,rate,qty 
-  end
-
+  @productlist<<PurchaseItem.new(Product.new( product, rate),qty)
+end
 
 def printReceipt
 totalamount=0.0
@@ -72,15 +62,41 @@ puts "Total: " + totalamount.round(2).to_s
 
 end
 
-def items
-return p = File.open("./items.txt").readlines
-end
 end
 
 b=Basket.new
-b.addProductPurchase(@p1)
-b.addProductPurchase(@p2)
-b.addProductPurchase(@p3)
-
+#b.addProductPurchase("1 imported box of chocolates at 10.00")
+b.addProductPurchase("1 imported bottle of perfume at 27.99")
+b.addProductPurchase("1 bottle of perfume at 18.99")
+b.addProductPurchase("1 packet of headache pills at 9.75")
+b.addProductPurchase("1 box of imported chocolates at 11.25")
 
 b.printReceipt()
+
+file =  File.new("./input.txt", "r")
+
+while (line = file.gets)
+
+   puts "\nInput Provided from file:\n"   
+   puts line
+   bask=Basket.new
+   t =line.split(",")   
+   t.each do |purchase|
+   puts purchase
+   bask.addProductPurchase(purchase)
+   end
+   puts "\nOutPut:\n"   
+    bask.printReceipt()
+end
+
+    
+ 
+
+
+#while l=gets.chomp and input != " " do Basket.addProductPurchase(input) end
+
+
+
+#while puts "Enter next item" input= gets.chomp basket.addProductPurchase(input) end  basket.printre
+
+
