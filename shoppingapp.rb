@@ -66,10 +66,6 @@ end
 
 b=Basket.new
 #b.addProductPurchase("1 imported box of chocolates at 10.00")
-b.addProductPurchase("1 imported bottle of perfume at 27.99")
-b.addProductPurchase("1 bottle of perfume at 18.99")
-b.addProductPurchase("1 packet of headache pills at 9.75")
-b.addProductPurchase("1 box of imported chocolates at 11.25")
 
 b.printReceipt()
 
